@@ -1,0 +1,78 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Shoespace</title>
+  <meta name="description" content="Shoespace Online">
+  <meta name="author" content="Will Turner">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+  <script src="js/webdnn.js"></script>
+
+  <div class="shoespace-display-wrapper">
+    <div class="shoespace-display">
+  	  <div class="vert-slider">
+  	  	<input id="vert-slider" type="range" min="0" max="1" step="0.1" />
+  	  </div>
+  	  <canvas id="canvas" width="280px" height="280px">
+  	  	Shoespace
+  		</canvas>
+  	  <div class="horz-slider">
+  	  	<input id="horz-slider" type="range" min="0" max="1" step="0.1" />
+  		</div>
+  	</div>
+  </div>
+
+  <script>
+    var slider_change = function() {
+      var xPos = document.getElementById('horz-slider').value;
+      var yPos = document.getElementById('vert-slider').value;
+      WebDNN.load('js/vae_fashion_gen').then(function(runner) {
+        runner.getInputViews()[0].set(new Float32Array([xPos, yPos])); 
+        let result = runner.getOutputViews()[0];
+        runner.run()
+          .then(function() {
+            //https://stackoverflow.com/questions/22823752/creating-image-from-array-in-javascript-and-html5
+            var scale = 10;
+            var width = 28 * scale;
+            var height = 28 * scale; 
+            var buffer = new Uint8ClampedArray(width * height * 4); // have enough bytes
+
+            for(var y = 0; y < height; y++) {
+              for(var x = 0; x < width; x++) {
+                var pixel = y * width + x;
+                var pos = pixel * 4; // position in buffer based on x and y
+                var result_pos = Math.floor(y / scale) * (width / scale) + Math.floor(x / scale);
+                buffer[pos  ] = result.toActual()[result_pos] * 255;           // some R value [0, 255]
+                buffer[pos+1] = result.toActual()[result_pos] * 255;           // some G value
+                buffer[pos+2] = result.toActual()[result_pos] * 255;           // some B value
+                buffer[pos+3] = 255;           // set alpha channel
+              }
+            }
+            var canvas = document.getElementById('canvas');
+            var ctx = canvas.getContext('2d');
+            canvas.width = width;
+            canvas.height = height;
+            var idata = ctx.createImageData(width, height);
+
+            // set our buffer as source
+            idata.data.set(buffer);
+
+            // update canvas with new data
+            ctx.putImageData(idata, 0, 0);
+          });
+      });
+    };
+    
+    slider_change();
+
+    document.getElementById('horz-slider').oninput = slider_change;
+    document.getElementById('vert-slider').oninput = slider_change;
+  </script>
+
+</body>
+</html>

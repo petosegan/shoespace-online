@@ -12,13 +12,13 @@
 
 <body>
   <script src="js/webdnn.js"></script>
-
+  <h2> shoe-space </h2>
   <div class="shoespace-display-wrapper">
     <div class="shoespace-display">
   	  <div class="vert-slider">
   	  	<input id="vert-slider" type="range" min="0" max="1" step="0.1" />
   	  </div>
-  	  <canvas id="canvas" width="280px" height="280px">
+  	  <canvas id="canvas" width="140" height="140">
   	  	Shoespace
   		</canvas>
   	  <div class="horz-slider">
@@ -37,7 +37,7 @@
         runner.run()
           .then(function() {
             //https://stackoverflow.com/questions/22823752/creating-image-from-array-in-javascript-and-html5
-            var scale = 10;
+            var scale = 5;
             var width = 28 * scale;
             var height = 28 * scale; 
             var buffer = new Uint8ClampedArray(width * height * 4); // have enough bytes

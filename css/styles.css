@@ -2,47 +2,52 @@ body {
   background-color: black;
 }
 
+h2 {
+  color: white;
+  text-align: center;
+}
+
 .vert-slider {
   float: left;
   margin-right: 4px;
-  width: 20px;
-  height: 280px;
+  width: 10px;
+  height: 140px;
   padding: 0;
 }
 
 .vert-slider input {
   position: relative;
-  left: -280px;
-  top: 280px;
-  width: 280px;
-  height: 20px;
+  left: -140px;
+  top: 140px;
+  width: 140px;
+  height: 10px;
   margin: 0;
-  transform-origin: 140px -140px;
+  transform-origin: 70px -70px;
   transform: rotate(270deg);
 }
 
 .horz-slider {
   position: relative;
   left: 24px;
-  width: 280px;
-  height: 20px;
+  width: 140px;
+  height: 10px;
   padding: 0;
 }
 
 .horz-slider input {
-  width: 280px;
-  height: 20px;
+  width: 140px;
+  height: 10px;
   margin: 0;
 }
 
 .shoespace-display {
   margin: 0 auto;
-  width: 304px;
+  width: 154px;
 }
 
 .shoespace-display-wrapper {
   display: flex;
-  height: 700px;
+  height: 140px;
   align-items: center;
   justify-content: space-around;
 }
